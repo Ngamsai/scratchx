@@ -4,6 +4,8 @@
 new (function() {
     var ext = this;
     var alarm_went_off = false; // This becomes true after the alarm goes off
+    var action = "left";
+    var times = 10;
 
     // Cleanup function when the extension is unloaded
     ext._shutdown = function() {};
@@ -31,11 +33,17 @@ new (function() {
        return false;
     };
 
+    ext.get_action = function(){
+        return action;
+    }
+
+
     // Block and block menu descriptions
     var descriptor = {
         blocks: [
             ['', 'run alarm after %n seconds', 'set_alarm', '2'],
             ['h', 'when alarm goes off', 'when_alarm'],
+            ['r', 'action', 'get_action'],
         ]
     };
 
