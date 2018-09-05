@@ -37,6 +37,10 @@ new (function() {
         return action;
     }
 
+    ext.get_times = function(){
+        return times;
+    }
+
 
     // Block and block menu descriptions
     var descriptor = {
@@ -44,6 +48,7 @@ new (function() {
             ['', 'run alarm after %n seconds', 'set_alarm', '2'],
             ['h', 'when alarm goes off', 'when_alarm'],
             ['r', 'action', 'get_action'],
+            ['r', 'times', 'get_times'],
         ]
     };
 
