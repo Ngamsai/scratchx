@@ -1,11 +1,25 @@
 /* Extension demonstrating a hat block */
 /* Sayamindu Dasgupta <sayamindu@media.mit.edu>, May 2014 */
+var express = require('express');
+var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http); //server
 
 new (function() {
     var ext = this;
     var alarm_went_off = false; // This becomes true after the alarm goes off
-    var action = "left";
-    var times = 10;
+    var direction ;
+    var speed ;
+    var socket = io ();
+
+    socket.on('connection', function (data) {
+        console.log(data);
+  
+    }); 
+    socket.on('chat',function(da,ta){
+        console.log(da);
+        console.log(ta);
+    });
 
     // Cleanup function when the extension is unloaded
     ext._shutdown = function() {};
@@ -33,12 +47,12 @@ new (function() {
        return false;
     };
 
-    ext.get_action = function(){
-        return action;
+    ext.get_direction = function(){
+        return direction;
     }
 
-    ext.get_times = function(){
-        return times;
+    ext.get_speed = function(){
+        return speed;
     }
 
 
@@ -47,11 +61,11 @@ new (function() {
         blocks: [
             ['', 'run alarm after %n seconds', 'set_alarm', '2'],
             ['h', 'when alarm goes off', 'when_alarm'],
-            ['r', 'action', 'get_action'],
-            ['r', 'times', 'get_times'],
+            ['r', 'direction', 'get_direction'],
+            ['r', 'speed', 'get_speed'],
         ]
     };
 
     // Register the extension
-    ScratchExtensions.register('Alarm extension', descriptor, ext);
+    ScratchExtensions.register('Speech extension', descriptor, ext);
 })();
