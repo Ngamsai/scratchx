@@ -1,10 +1,10 @@
 /* Extension demonstrating a hat block */
 /* Sayamindu Dasgupta <sayamindu@media.mit.edu>, May 2014 */
-var express = require('express');
-var app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http); //server
-
+// var express = require('express');
+// var app = express();
+// var http = require('http').Server(app);
+// var io = require('socket.io')(http); //server
+import io from 'socket.io-client';
 new (function() {
     var ext = this;
     var alarm_went_off = false; // This becomes true after the alarm goes off
