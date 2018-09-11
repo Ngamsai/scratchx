@@ -5,51 +5,51 @@ var path = require('path');
 var http = require('http').Server(app);
 var io = require('socket.io')(http); //server
 var port = process.env.PORT || 3000;
+// var cors = require('cors');
+
+// use it before all route definitions
+// app.use(cors({origin: '*'}));
 
 app.use('/', express.static(path.join(__dirname, 'public')))
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.post('/exam', (req, res) => {
-//     console.log(req.body);
-//     var array1 =[];
-    var keep = req.body.queryResult.parameters
+    console.log(req.body.queryResult.fulfillmentText);
+    if (!req.body) return res.sendStatus(400)
+    var keep = req.body.queryResult.parameters;
+    var responsetext =req.body.queryResult.fulfillmentText;
     var direction,speed ;
+//     var directionSet = [];
+//     var speedSet = [];
     console.log(keep);
-//     array1.forEach(function(keep) {
-//       console.log('show'+keep);
-//     });
     direction = keep['conversation-use'];
+//     directionSet.push(direction); 
     speed = keep['number-integer'];
-    console.log(direction);
-    console.log(speed);
+//     speedSet.push(speed);
+    console.log('show direction '+ direction);
+    console.log('show speed '+ speed);
+//     console.log('set direction is '+ directionSet);
+//     console.log('set speed is '+ speedSet);
+    let responseObj = {   
+                        "fulfillmentText":responsetext,
+                      }
+    console.log('show responseObj');
+    console.log(responseObj);
+
     io.emit('chat',direction,speed);
+  
+    return res.json(responseObj);
     
  })
-
+// io.set( 'origins', ['*'] );
 io.on('connection', function (socket) { 
-      console.log('connect');
+    console.log('connect');
+});
+io.on('connect_error', function (data) {
+    console.log(data);
+  
+}); 
 
-//   io.emit('chat', { for :'eiei'});
- });
-
-
-// console.log('This socket is now connected to the Sails server1234.');
-// io.on('connect', function(socket){
-//     console.log('This socket is now connected to the Sails server.');
-// //     socket.on('chat', function(keep){
-// //       console.log(keep)
-// //     });
-//  });
-// io.on('connection', function(socket){
-//    socket.on('chat message', function(keep){
-//      console.log(keep)
-//      io.sockets.emit('gameon',keep); 
-//     });
-//   //console.log('a user connected');
-// //   socket.on('chat message', function () {
-// //     console.log("5555555")
-// //   })
-// });
 http.listen(port, function () {
     console.log('listening on *: ' + port);
 });
